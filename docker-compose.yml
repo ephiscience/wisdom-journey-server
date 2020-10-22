@@ -9,3 +9,10 @@ services:
       - ./docker/volumes/postgres:/var/lib/postgresql/data
     ports:
       - 0.0.0.0:5432:5432
+  pgadmin:
+    image: dpage/pgadmin4:4.27
+    ports:
+      - 0.0.0.0:8080:80
+    env_file:
+      - .env.dist
+      - .env
