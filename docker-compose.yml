@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  database:
+    image: postgres:13-alpine
+    env_file:
+      - .env.dist
+      - .env
+    volumes: 
+      - ./docker/volumes/postgres:/var/lib/postgresql/data
+    ports:
+      - 0.0.0.0:5432:5432
