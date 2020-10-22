@@ -1,2 +1,5 @@
 /.env
 /docker/volumes/
+/node_modules/
+
+/yarn-error.log
