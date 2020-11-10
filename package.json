@@ -10,12 +10,13 @@
     "morgan": "^1.10.0",
     "pg": "^8.4.1",
     "ts-node": "^9.0.0",
+    "typeorm": "^0.2.29",
     "typescript": "^4.0.3"
   },
   "scripts": {
-    "load_questions": "node --unhandled-rejections=strict -r ts-node/register ./src/scripts/load_questions.ts",
-    "start": "node --unhandled-rejections=strict -r ts-node/register ./src/index.ts",
-    "serve": "node --unhandled-rejections=strict -r ts-node/register ./src/index.ts",
+    "load_questions": "node --unhandled-rejections=strict -r dotenv/config -r ts-node/register ./src/scripts/load_questions.ts",
+    "start": "node --unhandled-rejections=strict -r dotenv/config -r ts-node/register ./src/index.ts",
+    "serve": "node --unhandled-rejections=strict -r dotenv/config -r ts-node/register ./src/index.ts",
     "start:watch": "nodemon"
   },
   "nodemonConfig": {
