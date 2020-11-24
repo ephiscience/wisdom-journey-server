@@ -2,7 +2,7 @@ import { Client } from 'pg';
 import fs from 'fs';
 import "reflect-metadata";
 import {createConnection, Connection} from "typeorm";
-import {Questions} from "./entity/schema";
+import {Questions} from "../entity/questions";
 
 
 // We will load questions here
@@ -11,20 +11,20 @@ import {Questions} from "./entity/schema";
  * 1: (Re)Charger le schema de BDD - DONE
  * 2: parser le CSV (ou ODT/XLS) voir https://www.npmjs.com/package/csv-parser - DONE
  * 3: INSERT - DONE
- * 4: TypeORM
- * 5: express pour un serveur web => essayer un Hello World + GET /api/questions + GET /api/questions/:id
- * 6: Graphql, express-graphql (https://blog.logrocket.com/how-build-graphql-api-typegraphql-typeorm/)
+ * 4: TypeORM - DONE
+ * 5: express pour un serveur web => essayer un Hello World + GET /api/questions + GET /api/questions/:id - DONE
+ * 6: Graphql, express-graphql (https://blog.logrocket.com/how-build-graphql-api-typegraphql-typeorm/) + creer mutation pour s'entrainer
  * 
 */
 
 
-
-const csv = require('csv-parser')
+import csv from 'csv-parser' 
+// const csv = require('csv-parser')
 const results : string[] = [];
 
 //const text = 'INSERT INTO questions (description) VALUES ($1)'
 
-fs.createReadStream('/Users/camilleduquesne/Downloads/Stuff.csv') // should i put that in the async ?
+fs.createReadStream('/Users/camilleduquesne/Downloads/Stuff.csv')
           .pipe(csv())
           .on('data', (data) => results.push(data)) 
           .on('end', () => {
@@ -41,20 +41,22 @@ fs.createReadStream('/Users/camilleduquesne/Downloads/Stuff.csv') // should i pu
 
     const connection: Connection = await createConnection()
 
-    //remove what was there previously - TO DO 
-    //const questions = await connection.manager.find(Questions)
-    //await connection.manager.remove(Questions)
+    //remove what was there previously 
 
-    // Add questions to database ??
+    const previous_questions = await connection.manager.find(Questions)
+    //console.log("removing questions")
+    await connection.manager.remove(previous_questions) //truncate 
 
-    console.log("Inserting a new record into the student database...") 
-    const question = new Questions()
-    question.text = "Test Test Test Test"
 
-    await connection.manager.save(question)
-    console.log("Saved a new question")
+    // Add questions to database 
 
-    // Show questions in database  ??
+    for (var i = 0; i < results.length; i++) {
+            const question = new Questions()
+            question.text = Object.values(results[i]).toString()
+            await connection.manager.save(question)
+        };
+
+    // Show questions in database  
 
     const questions = await connection.manager.find(Questions)
     console.log("Loaded questions: ", questions)
