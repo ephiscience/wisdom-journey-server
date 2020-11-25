@@ -5,12 +5,12 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import { buildSchema } from "type-graphql";
 import { ApolloServer } from "apollo-server";
-import { QuestionResolver } from "../resolvers/QuestionResolver"; // add this
+import { QuestionResolver } from "../resolvers/QuestionResolver"; 
 
 async function main(){
   const connection = await createConnection()
   const schema = await buildSchema({
-    resolvers: [QuestionResolver] // add this
+    resolvers: [QuestionResolver] 
   })
   const server = new ApolloServer({ schema })
   await server.listen(4000)

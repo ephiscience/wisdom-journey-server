@@ -1,22 +1,24 @@
-// src/resolvers/BookResolver.ts
 
-import { Resolver, Query } from "type-graphql";
-import { Questions } from "../entity/Questions";
+import { Resolver, Query, Arg} from "type-graphql";
+import { Questions } from "../entity/questions";
+import {getRepository, createConnection, getConnection} from "typeorm";
 
 @Resolver()
 export class QuestionResolver {
   @Query(() => String)
   hello() {
     return "world";
-  };
+  }
 
   @Query(() => [Questions])
-  questions() {
-    return Questions.find();
-  };
+  async questions() {
+    const QuestionsRepository = await getConnection().getRepository(Questions); 
+    return await QuestionsRepository.find();
+  }
 
   @Query(() => Questions)
-  question(@Arg("id") id: ID) {
-    return Questions.findOne({ where: { id } });
-  };
+  async question(@Arg("id") id: number) {  
+    const QuestionsRepository = await getConnection().getRepository(Questions);
+    return await QuestionsRepository.findOne({ where: { id } });
+  }
 }
