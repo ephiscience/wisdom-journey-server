@@ -1,5 +1,6 @@
-import { ApolloServer } from 'apollo-server';
 import 'reflect-metadata';
+
+import { ApolloServer } from 'apollo-server';
 import { buildSchema } from 'type-graphql';
 import { QuestionResolver } from './resolvers/QuestionResolver';
 
