@@ -1,7 +1,6 @@
-
-import { Resolver, Query, Arg} from "type-graphql";
-import { Questions } from "../entity/questions";
-import {getRepository, createConnection, getConnection} from "typeorm";
+import { Arg, Query, Resolver } from 'type-graphql';
+import { getConnection } from 'typeorm';
+import { Question } from '../entity/Question';
 
 @Resolver()
 export class QuestionResolver {
@@ -10,15 +9,15 @@ export class QuestionResolver {
     return "world";
   }
 
-  @Query(() => [Questions])
+  @Query(() => [Question])
   async questions() {
-    const QuestionsRepository = await getConnection().getRepository(Questions); 
+    const QuestionsRepository = await getConnection().getRepository(Question);
     return await QuestionsRepository.find();
   }
 
-  @Query(() => Questions)
+  @Query(() => Question)
   async question(@Arg("id") id: number) {  
-    const QuestionsRepository = await getConnection().getRepository(Questions);
+    const QuestionsRepository = await getConnection().getRepository(Question);
     return await QuestionsRepository.findOne({ where: { id } });
   }
 }

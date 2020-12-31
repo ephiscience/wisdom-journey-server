@@ -1,3 +1,17 @@
-console.log('hello world');
+import { ApolloServer } from 'apollo-server';
+import 'reflect-metadata';
+import { buildSchema } from 'type-graphql';
+import { QuestionResolver } from './resolvers/QuestionResolver';
 
-// TODO: lister les questions
+async function main() {
+    const schema = await buildSchema({
+        resolvers: [QuestionResolver]
+    });
+    const server = new ApolloServer({schema});
+
+    return server.listen(4000);
+}
+
+main().then(() => {
+    console.log('Server has started!');
+});

@@ -2,7 +2,7 @@ import { Client } from 'pg';
 import fs from 'fs';
 import "reflect-metadata";
 import {createConnection, Connection} from "typeorm";
-import {Questions} from "../entity/questions";
+import {Question} from "../entity/questions";
 
 
 // We will load questions here
@@ -43,7 +43,7 @@ fs.createReadStream('/Users/camilleduquesne/Downloads/Stuff.csv')
 
     //remove what was there previously 
 
-    const previous_questions = await connection.manager.find(Questions)
+    const previous_questions = await connection.manager.find(Question)
     //console.log("removing questions")
     await connection.manager.remove(previous_questions) //truncate 
 
@@ -51,14 +51,14 @@ fs.createReadStream('/Users/camilleduquesne/Downloads/Stuff.csv')
     // Add questions to database 
 
     for (var i = 0; i < results.length; i++) {
-            const question = new Questions()
+            const question = new Question()
             question.text = Object.values(results[i]).toString()
             await connection.manager.save(question)
         };
 
     // Show questions in database  
 
-    const questions = await connection.manager.find(Questions)
+    const questions = await connection.manager.find(Question)
     console.log("Loaded questions: ", questions)
 
 
