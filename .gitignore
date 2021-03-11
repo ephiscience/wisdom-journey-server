@@ -1,5 +1,6 @@
-/.env
-/docker/volumes/
-/node_modules/
-
-/yarn-error.log
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/

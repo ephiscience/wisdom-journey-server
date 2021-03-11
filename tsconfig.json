@@ -1,23 +1,13 @@
 {
-    "compilerOptions": {
-      "target": "es2019",
-      "module": "commonjs", //commonjs //esnext // system
-      "outDir": "dist",
-      "esModuleInterop": true,
-      "sourceMap": true,
-      "strictNullChecks": true,
-      "noImplicitReturns": true,
-      "alwaysStrict": true,
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "moduleResolution": "node"
-      //    "noImplicitAny": true
-    },
-    "include": [
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "node_modules"
-    ]
+  "compilerOptions": {
+    "lib": ["es5", "es6"],
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "esModuleInterop": true
   }
-  
+}
