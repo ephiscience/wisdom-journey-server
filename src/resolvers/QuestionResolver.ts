@@ -11,8 +11,9 @@ export class QuestionResolver {
 
     @Query(() => [Question])
     async questions() {
-        const QuestionsRepository = await getConnection().getRepository(Question);
-        return await QuestionsRepository.find();
+        const repository = await getConnection().getRepository(Question);
+
+        return repository.find();
     }
 
     @Query(() => Question)

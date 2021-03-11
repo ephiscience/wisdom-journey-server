@@ -1,18 +1,21 @@
-import 'reflect-metadata';
-
-import { ApolloServer } from 'apollo-server';
-import { buildSchema } from 'type-graphql';
-import { QuestionResolver } from './resolvers/QuestionResolver';
+import { ApolloServer } from "apollo-server";
+import "reflect-metadata";
+import { buildSchema } from "type-graphql";
+import { ConnectionOptions, createConnection } from "typeorm";
+import { QuestionResolver } from "./resolvers/QuestionResolver";
 
 async function main() {
-    const schema = await buildSchema({
-        resolvers: [QuestionResolver]
-    });
-    const server = new ApolloServer({schema});
+  await createConnection();
 
-    return server.listen(4000);
+  const schema = await buildSchema({
+    resolvers: [QuestionResolver],
+  });
+
+  const server = new ApolloServer({ schema });
+
+  return server.listen(4000);
 }
 
 main().then(() => {
-    console.log('Server has started!');
+  console.log("Server has started!");
 });
