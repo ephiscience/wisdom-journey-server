@@ -18,7 +18,7 @@ const results: string[] = [];
 
 //const text = 'INSERT INTO questions (description) VALUES ($1)'
 
-fs.createReadStream(__dirname + "/../../resources/base_questions.csv")
+fs.createReadStream(__dirname + "/../../resources/spanish_questions.csv")
   .pipe(csv())
   .on("data", (data) => results.push(data))
   .on("end", () => {
