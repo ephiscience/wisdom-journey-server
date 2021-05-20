@@ -4,7 +4,7 @@
  */
 
 
-import { Context } from "./src/context"
+import { Context } from "./../context"
 
 
 
