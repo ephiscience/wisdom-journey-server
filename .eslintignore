@@ -1,0 +1,5 @@
+/dist/
+/docker/
+/node_modules/
+/prisma/
+/src/generated/
