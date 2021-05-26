@@ -4,11 +4,11 @@
 
 type Query {
   questions: [Question]!
-  translation: [QuestionTranslation]!
 }
 
 type Question {
   id: Int
+  translation: [QuestionTranslation]
 }
 
 type QuestionTranslation {

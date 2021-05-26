@@ -46,10 +46,10 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 export interface NexusGenFieldTypes {
   Query: { // field return type
     questions: Array<NexusGenRootTypes['Question'] | null>; // [Question]!
-    translation: Array<NexusGenRootTypes['QuestionTranslation'] | null>; // [QuestionTranslation]!
   }
   Question: { // field return type
     id: number | null; // Int
+    translation: Array<NexusGenRootTypes['QuestionTranslation'] | null> | null; // [QuestionTranslation]
   }
   QuestionTranslation: { // field return type
     id: number | null; // Int
@@ -62,10 +62,10 @@ export interface NexusGenFieldTypes {
 export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     questions: 'Question'
-    translation: 'QuestionTranslation'
   }
   Question: { // field return type name
     id: 'Int'
+    translation: 'QuestionTranslation'
   }
   QuestionTranslation: { // field return type name
     id: 'Int'
