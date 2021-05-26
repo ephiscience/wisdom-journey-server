@@ -1,4 +1,4 @@
-import { objectType } from "nexus";
+import { objectType, intArg, stringArg, arg, core, nonNull } from "nexus";
 
 export const Question = objectType({
   name: "Question", // <- Name of your type
@@ -34,6 +34,24 @@ export const QuestionQuery = extendType({
       type: Question,
       resolve(_root, _args, ctx) {
         return ctx.db.question.findMany();
+      },
+    });
+  },
+});
+
+export const QuestionTranslationByLanguage = extendType({
+  type: "Question",
+  definition: (t) => {
+    t.list.field("translation", {
+      type: QuestionTranslation,
+      args: { lang: stringArg() },
+      resolve(root, args, ctx) {
+        return ctx.db.questionTranslation.findMany({
+          where: {
+            questionId: { equals: root.id },
+            lang: { equals: args.lang },
+          },
+        });
       },
     });
   },

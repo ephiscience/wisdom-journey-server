@@ -76,6 +76,11 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Question: {
+    translation: { // args
+      lang?: string | null; // String
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
