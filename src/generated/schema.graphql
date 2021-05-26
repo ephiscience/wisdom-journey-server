@@ -4,8 +4,16 @@
 
 type Query {
   questions: [Question]!
+  translation: [QuestionTranslation]!
 }
 
 type Question {
   id: Int
+}
+
+type QuestionTranslation {
+  id: Int
+  lang: String
+  questionid: Int
+  translation: String
 }

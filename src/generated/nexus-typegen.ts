@@ -3,7 +3,7 @@
  * Do not make changes to this file directly
  */
 
-
+import * as P from ".prisma/client"
 import { Context } from "./../context"
 
 
@@ -29,9 +29,8 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   Query: {};
-  Question: { // root type
-    id?: number | null; // Int
-  }
+  Question: P.Question;
+  QuestionTranslation: P.QuestionTranslation;
 }
 
 export interface NexusGenInterfaces {
@@ -47,18 +46,32 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 export interface NexusGenFieldTypes {
   Query: { // field return type
     questions: Array<NexusGenRootTypes['Question'] | null>; // [Question]!
+    translation: Array<NexusGenRootTypes['QuestionTranslation'] | null>; // [QuestionTranslation]!
   }
   Question: { // field return type
     id: number | null; // Int
+  }
+  QuestionTranslation: { // field return type
+    id: number | null; // Int
+    lang: string | null; // String
+    questionid: number | null; // Int
+    translation: string | null; // String
   }
 }
 
 export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     questions: 'Question'
+    translation: 'QuestionTranslation'
   }
   Question: { // field return type name
     id: 'Int'
+  }
+  QuestionTranslation: { // field return type name
+    id: 'Int'
+    lang: 'String'
+    questionid: 'Int'
+    translation: 'String'
   }
 }
 
