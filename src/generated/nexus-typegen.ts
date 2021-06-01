@@ -50,6 +50,7 @@ export interface NexusGenFieldTypes {
   Question: { // field return type
     id: number | null; // Int
     translation: Array<NexusGenRootTypes['QuestionTranslation'] | null> | null; // [QuestionTranslation]
+    translations: Array<NexusGenRootTypes['QuestionTranslation'] | null> | null; // [QuestionTranslation]
   }
   QuestionTranslation: { // field return type
     id: number | null; // Int
@@ -66,6 +67,7 @@ export interface NexusGenFieldTypeNames {
   Question: { // field return type name
     id: 'Int'
     translation: 'QuestionTranslation'
+    translations: 'QuestionTranslation'
   }
   QuestionTranslation: { // field return type name
     id: 'Int'
@@ -83,6 +85,9 @@ export interface NexusGenArgTypes {
   }
   Question: {
     translation: { // args
+      lang?: string | null; // String
+    }
+    translations: { // args
       lang?: string | null; // String
     }
   }

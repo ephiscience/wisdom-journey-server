@@ -9,6 +9,7 @@ type Query {
 type Question {
   id: Int
   translation(lang: String): [QuestionTranslation]
+  translations(lang: String): [QuestionTranslation]
 }
 
 type QuestionTranslation {

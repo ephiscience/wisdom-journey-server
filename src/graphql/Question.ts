@@ -12,13 +12,13 @@ export const Question = objectType({
   name: "Question", // <- Name of your type
   definition(t) {
     t.int("id"); // <- Field named `id` of type `Int`
-    t.list.field("translation", {
+    t.list.field("translations", {
       type: "QuestionTranslation",
       args: { lang: stringArg() },
-      resolve(root, args, ctx) {
+      resolve(question, args, ctx) {
         return ctx.db.questionTranslation.findMany({
           where: {
-            questionId: { equals: root.id },
+            questionId: { equals: question.id },
             lang: { equals: args.lang },
           },
         });
@@ -45,8 +45,14 @@ export const QuestionQueryByLanguage = extendType({
     t.nonNull.list.field("questions", {
       type: Question,
       args: { lang: stringArg() },
-      resolve(_root, args, ctx) {
-        return ctx.db.question.findMany();
+      resolve(root, args, ctx) {
+        return ctx.db.question.findMany({
+          where: {
+            translations: {
+              lang: { equals: args.lang },
+            },
+          },
+        });
       },
     });
   },
