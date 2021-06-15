@@ -9,19 +9,34 @@ import {
 } from "nexus";
 
 export const Question = objectType({
-  name: "Question", // <- Name of your type
+  name: "Question",
   definition(t) {
-    t.int("id"); // <- Field named `id` of type `Int`
+    t.int("id");
     t.list.field("translations", {
       type: "QuestionTranslation",
       args: { lang: stringArg() },
       resolve(question, args, ctx) {
         return ctx.db.questionTranslation.findMany({
           where: {
-            questionId: { equals: question.id },
-            lang: { equals: args.lang },
+            questionId: question.id,
+            lang: args.lang!, // TODO: Remove the `!`
           },
         });
+      },
+    });
+
+    t.string("text", {
+      args: { lang: nonNull(stringArg()) },
+      async resolve(question, args, ctx) {
+        const q = await ctx.db.questionTranslation.findFirst({
+          where: { questionId: question.id, lang: args.lang },
+        });
+
+        if (q) {
+          return q.translation;
+        } else {
+          return null;
+        }
       },
     });
   },
@@ -31,49 +46,23 @@ export const QuestionQuery = extendType({
   type: "Query",
   definition(t) {
     t.nonNull.list.field("questions", {
-      type: Question,
-      resolve(_root, _args, ctx) {
-        return ctx.db.question.findMany();
-      },
-    });
-  },
-});
-
-export const QuestionQueryByLanguage = extendType({
-  type: "Query",
-  definition(t) {
-    t.nonNull.list.field("questions", {
-      type: Question,
+      type: nonNull(Question),
       args: { lang: stringArg() },
       resolve(root, args, ctx) {
-        return ctx.db.question.findMany({
-          where: {
-            translations: {
-              lang: { equals: args.lang },
+        if (args.lang) {
+          return ctx.db.question.findMany({
+            where: {
+              translations: {
+                some: {
+                  lang: args.lang!, // TODO: Remove the `!`
+                },
+              },
             },
-          },
-        });
+          });
+        } else {
+          return ctx.db.question.findMany();
+        }
       },
     });
   },
 });
-
-/*
-export const QuestionTranslationByLanguage = extendType({
-  type: "Question",
-  definition: (t) => {
-    t.list.field("translation", {
-      type: QuestionTranslation,
-      args: { lang: stringArg() },
-      resolve(root, args, ctx) {
-        return ctx.db.questionTranslation.findMany({
-          where: {
-            questionId: { equals: root.id },
-            lang: { equals: args.lang },
-          },
-        });
-      },
-    });
-  },
-});
-*/

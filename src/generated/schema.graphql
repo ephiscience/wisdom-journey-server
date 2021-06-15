@@ -3,12 +3,12 @@
 
 
 type Query {
-  questions(lang: String): [Question]!
+  questions(lang: String): [Question!]!
 }
 
 type Question {
   id: Int
-  translation(lang: String): [QuestionTranslation]
+  text(lang: String!): String
   translations(lang: String): [QuestionTranslation]
 }
 

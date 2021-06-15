@@ -9,22 +9,3 @@ export const QuestionTranslation = objectType({
     t.int("questionid"); //question???
   },
 });
-
-import { extendType } from "nexus";
-export const QuestionTranslationByLanguage = extendType({
-  type: "Question",
-  definition: (t) => {
-    t.list.field("translation", {
-      type: QuestionTranslation,
-      args: { lang: stringArg() },
-      resolve(root, args, ctx) {
-        return ctx.db.questionTranslation.findMany({
-          where: {
-            questionId: { equals: root.id },
-            lang: { equals: args.lang },
-          },
-        });
-      },
-    });
-  },
-});

@@ -45,11 +45,11 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
   Query: { // field return type
-    questions: Array<NexusGenRootTypes['Question'] | null>; // [Question]!
+    questions: NexusGenRootTypes['Question'][]; // [Question!]!
   }
   Question: { // field return type
     id: number | null; // Int
-    translation: Array<NexusGenRootTypes['QuestionTranslation'] | null> | null; // [QuestionTranslation]
+    text: string | null; // String
     translations: Array<NexusGenRootTypes['QuestionTranslation'] | null> | null; // [QuestionTranslation]
   }
   QuestionTranslation: { // field return type
@@ -66,7 +66,7 @@ export interface NexusGenFieldTypeNames {
   }
   Question: { // field return type name
     id: 'Int'
-    translation: 'QuestionTranslation'
+    text: 'String'
     translations: 'QuestionTranslation'
   }
   QuestionTranslation: { // field return type name
@@ -84,8 +84,8 @@ export interface NexusGenArgTypes {
     }
   }
   Question: {
-    translation: { // args
-      lang?: string | null; // String
+    text: { // args
+      lang: string; // String!
     }
     translations: { // args
       lang?: string | null; // String
