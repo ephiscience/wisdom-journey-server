@@ -1,48 +1,45 @@
 {
-   "name": "wisdowm-journey-server",
-   "version": "1.0.0",
-   "main": "src/index.ts",
-   "repository": "git@github.com:ephiscience/wisdowm-journey-server.git",
-   "private": true,
-   "dependencies": {
-      "apollo-server": "^2.19.0",
-      "csv-parser": "3",
-      "dotenv": "^8.2.0",
-      "express": "^4.17.1",
-      "graphql": "15",
-      "morgan": "^1.10.0",
-      "mysql": "^2.14.1",
-      "pg": "^8.4.1",
-      "reflect-metadata": "^0.1.10",
-      "ts-node": "^9.0.0",
-      "type-graphql": "^1.1.1",
-      "typeorm": "^0.2.29",
-      "typescript": "^4.0.3"
-   },
-   "scripts": {
-      "load_questions": "node --unhandled-rejections=strict -r dotenv/config -r ts-node/register ./src/scripts/load_questions.ts",
-      "start": "ts-node src/index.ts",
-      "start:watch": "nodemon"
-   },
-   "nodemonConfig": {
-      "ignore": [
-         "**/*.test.ts",
-         "**/*.spec.ts",
-         ".git",
-         "node_modules"
-      ],
-      "watch": [
-         "src",
-         ".env"
-      ],
-      "exec": "yarn start",
-      "ext": "ts"
-   },
-   "devDependencies": {
-      "@types/node": "^14.14",
-      "@types/pg": "^7.14.5",
-      "nodemon": "^2.0.6",
-      "ts-node": "3.3.0",
-      "typescript": "3.3.3333"
-   }
+  "name": "wisdowm-journey-server",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "repository": "git@github.com:ephiscience/wisdowm-journey-server.git",
+  "private": true,
+  "dependencies": {
+    "@prisma/client": "^2.23.0",
+    "apollo-server": "^2.24.1",
+    "csv-parser": "^3.0.0",
+    "graphql": "^15.5.0",
+    "nexus": "^1.0.0"
+  },
+  "scripts": {
+    "load_questions": "node --unhandled-rejections=strict -r ts-node/register ./src/scripts/load_questions.ts",
+    "dev": "ts-node-dev --transpile-only --no-notify src/index.ts",
+    "build": "tsc"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src",
+      ".env"
+    ],
+    "exec": "yarn start",
+    "ext": "ts"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
+    "eslint": "^7.26.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.3.0",
+    "prisma": "^2.23.0",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.4"
+  }
 }

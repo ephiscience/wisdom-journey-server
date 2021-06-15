@@ -1,82 +1,75 @@
-// We will load questions here
-/*
- * 1: (Re)Charger le schema de BDD - DONE
- * 2: parser le CSV (ou ODT/XLS) voir https://www.npmjs.com/package/csv-parser - DONE
- * 3: INSERT - DONE
- * 4: TypeORM - DONE
- * 5: express pour un serveur web => essayer un Hello World + GET /api/questions + GET /api/questions/:id - DONE
- * 6: Graphql, express-graphql (https://blog.logrocket.com/how-build-graphql-api-typegraphql-typeorm/) + creer mutation pour s'entrainer
- *
- */
 import csv from "csv-parser";
 import fs from "fs";
-import "reflect-metadata";
-import { Connection, createConnection } from "typeorm";
-import { Question } from "../entity/Question";
-// const csv = require('csv-parser')
-const results: string[] = [];
+import { PrismaClient, Question, QuestionTranslation } from "@prisma/client";
 
-//const text = 'INSERT INTO questions (description) VALUES ($1)'
+//const csv = require('csv-parser')
+const results: { [k: string]: string }[] = [];
 
-fs.createReadStream(__dirname + "/../../resources/base_questions.csv")
+fs.createReadStream(__dirname + "/../../resources/i18n_Questions.csv")
   .pipe(csv())
   .on("data", (data) => results.push(data))
   .on("end", () => {
     //console.log(results); // see results
   });
 
-//const client = new Client({ connectionString: 'postgres://ephiscience:password@0.0.0.0:5433/wisdom_journey' });
+const prisma = new PrismaClient();
 
-(async () => {
-  const connection: Connection = await createConnection();
+async function createQuestion(): Promise<Question> {
+  const question = await prisma.question.create({
+    data: {},
+  });
+  return question;
+}
 
-  //remove what was there previously
+async function addTranslation(
+  question: Question,
+  lang: string,
+  text: string
+): Promise<void> {
+  const newtranslation = await prisma.questionTranslation.create({
+    data: {
+      lang: lang,
+      translation: text,
+      questionId: question.id,
+    },
+  });
+}
 
-  const previous_questions = await connection.manager.find(Question);
-  //console.log("removing questions")
-  await connection.manager.remove(previous_questions); //truncate
-
-  // Add questions to database
+async function main() {
+  // remove previous questions
+  const deleteQuestionTexts = await prisma.questionTranslation.deleteMany({});
+  const deleteQuestions = await prisma.question.deleteMany({});
+  //const deleteQuestionTexts = await prisma.questionText.deleteMany({});
 
   for (var i = 0; i < results.length; i++) {
-    const question = new Question();
-    question.text = Object.values(results[i]).toString();
-    await connection.manager.save(question);
+    let translations = [];
+
+    for (let language in results[i]) {
+      let text = results[i][language];
+      let lang = language.toLowerCase().slice(0, 2);
+      if (text && text != "") {
+        translations.push({ lang, text });
+      }
+    }
+    if (translations.length) {
+      const question = await createQuestion();
+      translations.forEach(({ lang, text }) =>
+        addTranslation(question, lang, text)
+      );
+    }
   }
 
-  // Show questions in database
+  console.log("Loaded questions:");
+  const allQuestions = await prisma.question.findMany({
+    include: { translations: true },
+  });
+  console.dir(allQuestions, { depth: null });
+}
 
-  const questions = await connection.manager.find(Question);
-  console.log("Loaded questions: ", questions);
-
-  //await client.connect()
-
-  //await client.query(`
-  //    DROP TABLE IF EXISTS questions;
-  //    CREATE TABLE questions (
-  //        id SERIAL PRIMARY KEY,
-  //        description VARCHAR(1000) -- French text
-  //    )
-  //`)
-
-  //let a: number = 42;
-
-  //await client.query(`COPY questions from '/Users/camilleduquesne/Downloads/Stuff.csv' DELIMITER ';' CSV HEADER`)
-
-  //await client.query(`INSERT INTO questions (description) VALUES ('Ma première question')`)
-  //await client.query(`INSERT INTO questions (description) VALUES (results)`)
-
-  //for (var i = 0; i < results.length; i++) {
-  //await client.query(text, Object.values(results[i]))
-  //};
-
-  //const res = await client.query('SELECT * FROM questions as message')
-
-  //console.log("Les questions en BDD sont: ")
-
-  //res.rows.forEach(r => console.log(r.description))
-
-  // console.log(res.rows[0].description) // Hello world!
-
-  //await client.end()
-})();
+main()
+  .catch((e) => {
+    throw e;
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
