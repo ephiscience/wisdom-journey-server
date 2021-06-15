@@ -28,12 +28,12 @@ export const Question = objectType({
     t.string("text", {
       args: { lang: nonNull(stringArg()) },
       async resolve(question, args, ctx) {
-        const q = await ctx.db.questionTranslation.findFirst({
+        const translation = await ctx.db.questionTranslation.findFirst({
           where: { questionId: question.id, lang: args.lang },
         });
 
-        if (q) {
-          return q.translation;
+        if (translation) {
+          return translation.translation;
         } else {
           return null;
         }
