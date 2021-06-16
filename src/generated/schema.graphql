@@ -2,7 +2,22 @@
 ### Do not make changes to this file directly
 
 
+type Criterion {
+  id: Int
+  text(lang: String!): String
+  translations(lang: String): [CriterionTranslation]
+}
+
+type CriterionTranslation {
+  id: Int
+  lang: String
+  questionid: Int
+  subtitle: String
+  title: String
+}
+
 type Query {
+  criterions(lang: String): [Criterion!]!
   questions(lang: String): [Question!]!
 }
 

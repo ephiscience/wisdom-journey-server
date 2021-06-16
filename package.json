@@ -9,6 +9,7 @@
     "apollo-server": "^2.24.1",
     "csv-parser": "^3.0.0",
     "graphql": "^15.5.0",
+    "lint": "^0.7.0",
     "nexus": "^1.0.0"
   },
   "scripts": {

@@ -28,6 +28,8 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Criterion: P.Criterion;
+  CriterionTranslation: P.CriterionTranslation;
   Query: {};
   Question: P.Question;
   QuestionTranslation: P.QuestionTranslation;
@@ -44,7 +46,20 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Criterion: { // field return type
+    id: number | null; // Int
+    text: string | null; // String
+    translations: Array<NexusGenRootTypes['CriterionTranslation'] | null> | null; // [CriterionTranslation]
+  }
+  CriterionTranslation: { // field return type
+    id: number | null; // Int
+    lang: string | null; // String
+    questionid: number | null; // Int
+    subtitle: string | null; // String
+    title: string | null; // String
+  }
   Query: { // field return type
+    criterions: NexusGenRootTypes['Criterion'][]; // [Criterion!]!
     questions: NexusGenRootTypes['Question'][]; // [Question!]!
   }
   Question: { // field return type
@@ -61,7 +76,20 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Criterion: { // field return type name
+    id: 'Int'
+    text: 'String'
+    translations: 'CriterionTranslation'
+  }
+  CriterionTranslation: { // field return type name
+    id: 'Int'
+    lang: 'String'
+    questionid: 'Int'
+    subtitle: 'String'
+    title: 'String'
+  }
   Query: { // field return type name
+    criterions: 'Criterion'
     questions: 'Question'
   }
   Question: { // field return type name
@@ -78,7 +106,18 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Criterion: {
+    text: { // args
+      lang: string; // String!
+    }
+    translations: { // args
+      lang?: string | null; // String
+    }
+  }
   Query: {
+    criterions: { // args
+      lang?: string | null; // String
+    }
     questions: { // args
       lang?: string | null; // String
     }
