@@ -13,6 +13,7 @@
   },
   "scripts": {
     "load_questions": "node --unhandled-rejections=strict -r ts-node/register ./src/scripts/load_questions.ts",
+    "load_criterions": "node --unhandled-rejections=strict -r ts-node/register ./src/scripts/load_criterions.ts",
     "dev": "ts-node-dev --transpile-only --no-notify src/index.ts",
     "build": "tsc"
   },
