@@ -7,6 +7,6 @@ export const CriterionTranslation = objectType({
     t.string("lang");
     t.string("title");
     t.string("subtitle");
-    t.int("questionid"); //question???
+    t.int("criterionid"); //question???
   },
 });

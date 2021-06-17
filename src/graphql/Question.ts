@@ -6,6 +6,7 @@ import {
   arg,
   core,
   nonNull,
+  idArg,
 } from "nexus";
 
 export const Question = objectType({
@@ -24,7 +25,7 @@ export const Question = objectType({
         });
       },
     });
-
+    /*
     t.string("text", {
       args: { lang: nonNull(stringArg()) },
       async resolve(question, args, ctx) {
@@ -39,6 +40,7 @@ export const Question = objectType({
         }
       },
     });
+    */
   },
 });
 
@@ -61,6 +63,21 @@ export const QuestionQuery = extendType({
           });
         } else {
           return ctx.db.question.findMany();
+        }
+      },
+    });
+    t.field("question", {
+      type: Question,
+      args: { id: nonNull(intArg()) },
+      resolve(root, args, ctx) {
+        if (args.id) {
+          return ctx.db.question.findUnique({
+            where: {
+              id: args.id,
+            },
+          });
+        } else {
+          return null;
         }
       },
     });

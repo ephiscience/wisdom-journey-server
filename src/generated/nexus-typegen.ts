@@ -60,11 +60,11 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     criterions: NexusGenRootTypes['Criterion'][]; // [Criterion!]!
+    question: NexusGenRootTypes['Question'] | null; // Question
     questions: NexusGenRootTypes['Question'][]; // [Question!]!
   }
   Question: { // field return type
     id: number | null; // Int
-    text: string | null; // String
     translations: Array<NexusGenRootTypes['QuestionTranslation'] | null> | null; // [QuestionTranslation]
   }
   QuestionTranslation: { // field return type
@@ -90,11 +90,11 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     criterions: 'Criterion'
+    question: 'Question'
     questions: 'Question'
   }
   Question: { // field return type name
     id: 'Int'
-    text: 'String'
     translations: 'QuestionTranslation'
   }
   QuestionTranslation: { // field return type name
@@ -118,14 +118,14 @@ export interface NexusGenArgTypes {
     criterions: { // args
       lang?: string | null; // String
     }
+    question: { // args
+      id: number; // Int!
+    }
     questions: { // args
       lang?: string | null; // String
     }
   }
   Question: {
-    text: { // args
-      lang: string; // String!
-    }
     translations: { // args
       lang?: string | null; // String
     }

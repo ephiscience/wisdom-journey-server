@@ -18,12 +18,12 @@ type CriterionTranslation {
 
 type Query {
   criterions(lang: String): [Criterion!]!
+  question(id: Int!): Question
   questions(lang: String): [Question!]!
 }
 
 type Question {
   id: Int
-  text(lang: String!): String
   translations(lang: String): [QuestionTranslation]
 }
 
