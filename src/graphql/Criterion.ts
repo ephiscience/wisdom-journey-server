@@ -25,7 +25,7 @@ export const Criterion = objectType({
       },
     });
 
-    t.string("text", {
+    t.string("title", {
       args: { lang: nonNull(stringArg()) },
       async resolve(criterion, args, ctx) {
         const translation = await ctx.db.criterionTranslation.findFirst({
@@ -33,7 +33,21 @@ export const Criterion = objectType({
         });
 
         if (translation) {
-          return translation.translation;
+          return translation.title;
+        } else {
+          return null;
+        }
+      },
+    });
+    t.string("subtitle", {
+      args: { lang: nonNull(stringArg()) },
+      async resolve(criterion, args, ctx) {
+        const translation = await ctx.db.criterionTranslation.findFirst({
+          where: { criterionId: criterion.id, lang: args.lang },
+        });
+
+        if (translation) {
+          return translation.subtitle;
         } else {
           return null;
         }
