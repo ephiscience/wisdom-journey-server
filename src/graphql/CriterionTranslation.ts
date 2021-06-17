@@ -1,4 +1,4 @@
-import { objectType, stringArg } from "nexus";
+import { objectType } from "nexus";
 
 export const CriterionTranslation = objectType({
   name: "CriterionTranslation", // <- Name of your type

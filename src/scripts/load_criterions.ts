@@ -14,11 +14,10 @@ fs.createReadStream(__dirname + "/../../resources/i18n_criterions.csv")
 
 const prisma = new PrismaClient();
 
-async function createCriterion(): Promise<Criterion> {
-  const criterion = await prisma.criterion.create({
+function createCriterion(): Promise<Criterion> {
+  return prisma.criterion.create({
     data: {},
   });
-  return criterion;
 }
 
 function addTranslation(
@@ -38,10 +37,9 @@ function addTranslation(
 }
 
 async function main() {
-  // remove previous questions
-  const deleteCriterionTranslations =
-    await prisma.criterionTranslation.deleteMany({});
-  const deleteCriterion = await prisma.criterion.deleteMany({});
+  // remove previous criterions
+  await prisma.criterionTranslation.deleteMany({});
+  await prisma.criterion.deleteMany({});
   //const deleteQuestionTexts = await prisma.questionText.deleteMany({});
 
   for (let i = 0; i < results.length; i++) {

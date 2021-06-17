@@ -14,19 +14,18 @@ fs.createReadStream(__dirname + "/../../resources/i18n_Questions.csv")
 
 const prisma = new PrismaClient();
 
-async function createQuestion(): Promise<Question> {
-  const question = await prisma.question.create({
+function createQuestion(): Promise<Question> {
+  return prisma.question.create({
     data: {},
   });
-  return question;
 }
 
-async function addTranslation(
+function addTranslation(
   question: Question,
   lang: string,
   text: string
-): Promise<void> {
-  const newtranslation = await prisma.questionTranslation.create({
+): Promise<QuestionTranslation> {
+  return prisma.questionTranslation.create({
     data: {
       lang: lang,
       translation: text,
@@ -37,24 +36,26 @@ async function addTranslation(
 
 async function main() {
   // remove previous questions
-  const deleteQuestionTexts = await prisma.questionTranslation.deleteMany({});
-  const deleteQuestions = await prisma.question.deleteMany({});
+  await prisma.questionTranslation.deleteMany({});
+  await prisma.question.deleteMany({});
   //const deleteQuestionTexts = await prisma.questionText.deleteMany({});
 
-  for (var i = 0; i < results.length; i++) {
-    let translations = [];
+  for (let i = 0; i < results.length; i++) {
+    const translations = [];
 
-    for (let language in results[i]) {
-      let text = results[i][language];
-      let lang = language.toLowerCase().slice(0, 2);
-      if (text && text != "") {
+    for (const language in results[i]) {
+      const text = results[i][language];
+      const lang = language.toLowerCase().slice(0, 2);
+      if (text && text !== "") {
         translations.push({ lang, text });
       }
     }
     if (translations.length) {
       const question = await createQuestion();
-      translations.forEach(({ lang, text }) =>
-        addTranslation(question, lang, text)
+      await Promise.all(
+        translations.map(({ lang, text }) =>
+          addTranslation(question, lang, text)
+        )
       );
     }
   }

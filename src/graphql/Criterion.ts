@@ -1,12 +1,4 @@
-import {
-  objectType,
-  extendType,
-  intArg,
-  stringArg,
-  arg,
-  core,
-  nonNull,
-} from "nexus";
+import { objectType, extendType, stringArg, nonNull } from "nexus";
 
 export const Criterion = objectType({
   name: "Criterion",
