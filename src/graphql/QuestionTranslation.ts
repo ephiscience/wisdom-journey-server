@@ -1,4 +1,4 @@
-import { objectType, stringArg } from "nexus";
+import { objectType } from "nexus";
 
 export const QuestionTranslation = objectType({
   name: "QuestionTranslation", // <- Name of your type

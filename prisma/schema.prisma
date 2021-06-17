@@ -11,14 +11,28 @@ generator client {
 }
 
 model Question {
-  id Int @id @default(autoincrement())
+  id           Int                   @id @default(autoincrement())
   translations QuestionTranslation[]
 }
 
 model QuestionTranslation {
-    id Int     @default(autoincrement()) @id
-    lang String
-    translation String
-    question Question @relation(fields: [questionId], references: [id]) // (2) ORM -- typescript
-    questionId Int // (1) BDD => colonne + index + references
+  id          Int      @id @default(autoincrement())
+  lang        String
+  translation String
+  question    Question @relation(fields: [questionId], references: [id]) // (2) ORM -- typescript
+  questionId  Int // (1) BDD => colonne + index + references
+}
+
+model Criterion {
+  id           Int                    @id @default(autoincrement())
+  translations CriterionTranslation[]
+}
+
+model CriterionTranslation {
+  id          Int       @id @default(autoincrement())
+  lang        String
+  title       String
+  subtitle    String
+  criterion   Criterion @relation(fields: [criterionId], references: [id])
+  criterionId Int
 }

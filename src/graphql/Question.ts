@@ -1,12 +1,4 @@
-import {
-  objectType,
-  extendType,
-  intArg,
-  stringArg,
-  arg,
-  core,
-  nonNull,
-} from "nexus";
+import { objectType, extendType, intArg, stringArg, nonNull } from "nexus";
 
 export const Question = objectType({
   name: "Question",
@@ -48,20 +40,30 @@ export const QuestionQuery = extendType({
     t.nonNull.list.field("questions", {
       type: nonNull(Question),
       args: { lang: stringArg() },
-      resolve(root, args, ctx) {
-        if (args.lang) {
-          return ctx.db.question.findMany({
+      resolve(_root, { lang }, { db }) {
+        if (lang) {
+          return db.question.findMany({
             where: {
               translations: {
                 some: {
-                  lang: args.lang!, // TODO: Remove the `!`
+                  lang: lang!, // TODO: Remove the `!`
                 },
               },
             },
           });
         } else {
-          return ctx.db.question.findMany();
+          return db.question.findMany();
         }
+      },
+    });
+
+    t.field("question", {
+      type: Question,
+      args: { id: nonNull(intArg()) },
+      resolve(_root, { id }, { db }) {
+        return db.question.findUnique({
+          where: { id },
+        });
       },
     });
   },
