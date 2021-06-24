@@ -33,6 +33,7 @@ model CriterionTranslation {
   lang        String
   title       String
   subtitle    String
+  icon        String
   criterion   Criterion @relation(fields: [criterionId], references: [id])
   criterionId Int
 }

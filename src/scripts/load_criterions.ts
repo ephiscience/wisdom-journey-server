@@ -24,13 +24,15 @@ function addTranslation(
   criterion: Criterion,
   lang: string,
   title: string,
-  subtitle: string
+  subtitle: string,
+  icon: string
 ): Promise<CriterionTranslation> {
   return prisma.criterionTranslation.create({
     data: {
       lang: lang,
       title: title,
       subtitle: subtitle,
+      icon: icon,
       criterionId: criterion.id,
     },
   });
@@ -47,22 +49,30 @@ async function main() {
     const langs = Object.keys(results[i]);
     //console.log(langs);
 
-    for (let j = 0; j < Object.keys(results[i]).length; j = j + 2) {
+    for (let j = 1; j < Object.keys(results[i]).length; j = j + 2) {
       //console.log(j, j + 1);
       const title = results[i][langs[j]];
       const subtitle = results[i][langs[j + 1]];
       const lang = langs[j].toLowerCase().slice(0, 2);
+      const icon = results[i][langs[0]];
       //console.log(lang, title, subtitle);
-      if (title && title != "" && subtitle && subtitle != "") {
-        translations.push({ lang, title, subtitle });
+      if (
+        title &&
+        title != "" &&
+        subtitle &&
+        subtitle != "" &&
+        icon &&
+        icon != ""
+      ) {
+        translations.push({ lang, title, subtitle, icon });
       }
     }
     //console.log(translations);
     if (translations.length) {
       const criterion = await createCriterion();
       await Promise.all(
-        translations.map(({ lang, title, subtitle }) =>
-          addTranslation(criterion, lang, title, subtitle)
+        translations.map(({ lang, title, subtitle, icon }) =>
+          addTranslation(criterion, lang, title, subtitle, icon)
         )
       );
     }

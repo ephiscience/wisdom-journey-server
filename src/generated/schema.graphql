@@ -3,15 +3,18 @@
 
 
 type Criterion {
+  icon: String
   id: Int
-  text(lang: String!): String
+  subtitle(lang: String!): String
+  title(lang: String!): String
   translations(lang: String): [CriterionTranslation]
 }
 
 type CriterionTranslation {
+  criterionid: Int
+  icon: String
   id: Int
   lang: String
-  questionid: Int
   subtitle: String
   title: String
 }
@@ -24,6 +27,7 @@ type Query {
 
 type Question {
   id: Int
+  text(lang: String!): String
   translations(lang: String): [QuestionTranslation]
 }
 

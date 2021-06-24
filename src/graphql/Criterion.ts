@@ -16,7 +16,6 @@ export const Criterion = objectType({
         });
       },
     });
-
     t.string("title", {
       args: { lang: nonNull(stringArg()) },
       async resolve(criterion, args, ctx) {
@@ -40,6 +39,18 @@ export const Criterion = objectType({
 
         if (translation) {
           return translation.subtitle;
+        } else {
+          return null;
+        }
+      },
+    });
+    t.string("icon", {
+      async resolve(criterion, _args, ctx) {
+        const translation = await ctx.db.criterionTranslation.findFirst({
+          where: { criterionId: criterion.id },
+        });
+        if (translation) {
+          return translation.icon;
         } else {
           return null;
         }
