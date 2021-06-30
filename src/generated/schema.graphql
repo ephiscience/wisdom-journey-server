@@ -26,6 +26,7 @@ type Query {
 
 type Question {
   id: Int
+  text(lang: String!): String
   translations(lang: String): [QuestionTranslation]
 }
 

@@ -11,14 +11,19 @@ fs.createReadStream(__dirname + "/../../resources/i18n_criterions.csv")
   .on("end", () => {
     //console.log(results); // see results
   });
-
+fs.createReadStream(__dirname + "/../../resources/i18n_criterions.csv")
+  .pipe(csv())
+  .on("data", (data) => results.push(data))
+  .on("end", () => {
+    //console.log(results); // see results
+  });
 
 const prisma = new PrismaClient();
 
 function createCriterion(icon: string): Promise<Criterion> {
   return prisma.criterion.create({
     data: {
-      icon: icon
+      icon: icon,
     },
   });
 }
@@ -59,13 +64,8 @@ async function main() {
       const lang = langs[j].toLowerCase().slice(0, 2);
       //const icon = results[i][langs[0]];
       //console.log(lang, title, subtitle);
-      if (
-        title &&
-        title != "" &&
-        subtitle &&
-        subtitle != "" &&
-      ) {
-        translations.push({ lang, title, subtitle});
+      if (title && title != "" && subtitle && subtitle != "") {
+        translations.push({ lang, title, subtitle });
       }
     }
     //console.log(translations);
