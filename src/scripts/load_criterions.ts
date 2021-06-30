@@ -12,11 +12,14 @@ fs.createReadStream(__dirname + "/../../resources/i18n_criterions.csv")
     //console.log(results); // see results
   });
 
+
 const prisma = new PrismaClient();
 
-function createCriterion(): Promise<Criterion> {
+function createCriterion(icon: string): Promise<Criterion> {
   return prisma.criterion.create({
-    data: {},
+    data: {
+      icon: icon
+    },
   });
 }
 
@@ -25,14 +28,12 @@ function addTranslation(
   lang: string,
   title: string,
   subtitle: string,
-  icon: string
 ): Promise<CriterionTranslation> {
   return prisma.criterionTranslation.create({
     data: {
       lang: lang,
       title: title,
       subtitle: subtitle,
-      icon: icon,
       criterionId: criterion.id,
     },
   });
@@ -47,6 +48,8 @@ async function main() {
   for (let i = 0; i < results.length; i++) {
     const translations = [];
     const langs = Object.keys(results[i]);
+    const icon = results[i][langs[0]];
+    //prisma.criterion.create({data: {icon: icon}})
     //console.log(langs);
 
     for (let j = 1; j < Object.keys(results[i]).length; j = j + 2) {
@@ -54,25 +57,23 @@ async function main() {
       const title = results[i][langs[j]];
       const subtitle = results[i][langs[j + 1]];
       const lang = langs[j].toLowerCase().slice(0, 2);
-      const icon = results[i][langs[0]];
+      //const icon = results[i][langs[0]];
       //console.log(lang, title, subtitle);
       if (
         title &&
         title != "" &&
         subtitle &&
         subtitle != "" &&
-        icon &&
-        icon != ""
       ) {
-        translations.push({ lang, title, subtitle, icon });
+        translations.push({ lang, title, subtitle});
       }
     }
     //console.log(translations);
     if (translations.length) {
-      const criterion = await createCriterion();
+      const criterion = await createCriterion(icon);
       await Promise.all(
-        translations.map(({ lang, title, subtitle, icon }) =>
-          addTranslation(criterion, lang, title, subtitle, icon)
+        translations.map(({ lang, title, subtitle }) =>
+          addTranslation(criterion, lang, title, subtitle)
         )
       );
     }

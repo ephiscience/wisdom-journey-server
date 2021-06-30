@@ -12,7 +12,6 @@ type Criterion {
 
 type CriterionTranslation {
   criterionid: Int
-  icon: String
   id: Int
   lang: String
   subtitle: String

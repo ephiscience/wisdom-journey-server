@@ -55,7 +55,6 @@ export interface NexusGenFieldTypes {
   }
   CriterionTranslation: { // field return type
     criterionid: number | null; // Int
-    icon: string | null; // String
     id: number | null; // Int
     lang: string | null; // String
     subtitle: string | null; // String
@@ -89,7 +88,6 @@ export interface NexusGenFieldTypeNames {
   }
   CriterionTranslation: { // field return type name
     criterionid: 'Int'
-    icon: 'String'
     id: 'Int'
     lang: 'String'
     subtitle: 'String'

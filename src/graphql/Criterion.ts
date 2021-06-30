@@ -4,6 +4,7 @@ export const Criterion = objectType({
   name: "Criterion",
   definition(t) {
     t.int("id");
+    t.string("icon");
     t.list.field("translations", {
       type: "CriterionTranslation",
       args: { lang: stringArg() },
@@ -39,18 +40,6 @@ export const Criterion = objectType({
 
         if (translation) {
           return translation.subtitle;
-        } else {
-          return null;
-        }
-      },
-    });
-    t.string("icon", {
-      async resolve(criterion, _args, ctx) {
-        const translation = await ctx.db.criterionTranslation.findFirst({
-          where: { criterionId: criterion.id },
-        });
-        if (translation) {
-          return translation.icon;
         } else {
           return null;
         }
