@@ -27,7 +27,7 @@ function addTranslation(
   criterion: Criterion,
   lang: string,
   title: string,
-  subtitle: string,
+  subtitle: string
 ): Promise<CriterionTranslation> {
   return prisma.criterionTranslation.create({
     data: {
