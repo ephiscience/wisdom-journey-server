@@ -3,9 +3,9 @@ import { objectType, extendType, stringArg, nonNull } from "nexus";
 export const Criterion = objectType({
   name: "Criterion",
   definition(t) {
-    t.int("id");
-    t.string("icon");
-    t.list.field("translations", {
+    t.nonNull.int("id");
+    t.nonNull.string("icon");
+    t.nonNull.list.field("translations", {
       type: "CriterionTranslation",
       args: { lang: stringArg() },
       resolve(criterion, args, ctx) {

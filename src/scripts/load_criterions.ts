@@ -11,12 +11,6 @@ fs.createReadStream(__dirname + "/../../resources/i18n_criterions.csv")
   .on("end", () => {
     //console.log(results); // see results
   });
-fs.createReadStream(__dirname + "/../../resources/i18n_criterions.csv")
-  .pipe(csv())
-  .on("data", (data) => results.push(data))
-  .on("end", () => {
-    //console.log(results); // see results
-  });
 
 const prisma = new PrismaClient();
 
