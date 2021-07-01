@@ -25,6 +25,7 @@ model QuestionTranslation {
 
 model Criterion {
   id           Int                    @id @default(autoincrement())
+  icon        String
   translations CriterionTranslation[]
 }
 

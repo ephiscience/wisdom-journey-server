@@ -14,9 +14,11 @@ fs.createReadStream(__dirname + "/../../resources/i18n_criterions.csv")
 
 const prisma = new PrismaClient();
 
-function createCriterion(): Promise<Criterion> {
+function createCriterion(icon: string): Promise<Criterion> {
   return prisma.criterion.create({
-    data: {},
+    data: {
+      icon: icon,
+    },
   });
 }
 
@@ -45,13 +47,16 @@ async function main() {
   for (let i = 0; i < results.length; i++) {
     const translations = [];
     const langs = Object.keys(results[i]);
+    const icon = results[i][langs[0]];
+    //prisma.criterion.create({data: {icon: icon}})
     //console.log(langs);
 
-    for (let j = 0; j < Object.keys(results[i]).length; j = j + 2) {
+    for (let j = 1; j < Object.keys(results[i]).length; j = j + 2) {
       //console.log(j, j + 1);
       const title = results[i][langs[j]];
       const subtitle = results[i][langs[j + 1]];
       const lang = langs[j].toLowerCase().slice(0, 2);
+      //const icon = results[i][langs[0]];
       //console.log(lang, title, subtitle);
       if (title && title != "" && subtitle && subtitle != "") {
         translations.push({ lang, title, subtitle });
@@ -59,7 +64,7 @@ async function main() {
     }
     //console.log(translations);
     if (translations.length) {
-      const criterion = await createCriterion();
+      const criterion = await createCriterion(icon);
       await Promise.all(
         translations.map(({ lang, title, subtitle }) =>
           addTranslation(criterion, lang, title, subtitle)

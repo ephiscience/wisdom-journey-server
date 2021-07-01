@@ -47,14 +47,16 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
   Criterion: { // field return type
+    icon: string | null; // String
     id: number | null; // Int
-    text: string | null; // String
+    subtitle: string | null; // String
+    title: string | null; // String
     translations: Array<NexusGenRootTypes['CriterionTranslation'] | null> | null; // [CriterionTranslation]
   }
   CriterionTranslation: { // field return type
+    criterionid: number | null; // Int
     id: number | null; // Int
     lang: string | null; // String
-    questionid: number | null; // Int
     subtitle: string | null; // String
     title: string | null; // String
   }
@@ -65,6 +67,7 @@ export interface NexusGenFieldTypes {
   }
   Question: { // field return type
     id: number | null; // Int
+    text: string | null; // String
     translations: Array<NexusGenRootTypes['QuestionTranslation'] | null> | null; // [QuestionTranslation]
   }
   QuestionTranslation: { // field return type
@@ -77,14 +80,16 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenFieldTypeNames {
   Criterion: { // field return type name
+    icon: 'String'
     id: 'Int'
-    text: 'String'
+    subtitle: 'String'
+    title: 'String'
     translations: 'CriterionTranslation'
   }
   CriterionTranslation: { // field return type name
+    criterionid: 'Int'
     id: 'Int'
     lang: 'String'
-    questionid: 'Int'
     subtitle: 'String'
     title: 'String'
   }
@@ -95,6 +100,7 @@ export interface NexusGenFieldTypeNames {
   }
   Question: { // field return type name
     id: 'Int'
+    text: 'String'
     translations: 'QuestionTranslation'
   }
   QuestionTranslation: { // field return type name
@@ -107,7 +113,10 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Criterion: {
-    text: { // args
+    subtitle: { // args
+      lang: string; // String!
+    }
+    title: { // args
       lang: string; // String!
     }
     translations: { // args
@@ -126,6 +135,9 @@ export interface NexusGenArgTypes {
     }
   }
   Question: {
+    text: { // args
+      lang: string; // String!
+    }
     translations: { // args
       lang?: string | null; // String
     }
