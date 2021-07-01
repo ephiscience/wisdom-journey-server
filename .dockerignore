@@ -1,0 +1,14 @@
+/.idea
+/dist/
+/node_modules/
+
+/.dockerignore
+/Dockerfile
+/.env
+/.env.dist
+/.eslintrc.json
+/.gitignore
+/.prettierignore
+/.prettierrc.json
+/docker-compose.yml
+/README.md
